@@ -1,0 +1,5 @@
+{
+  "name": "danny-b-livesmart/wp-rest-api-add-feature-image",
+  "description": "Adds feature image source path to the WP REST API.",
+  "type": "wordpress-plugin"
+}
