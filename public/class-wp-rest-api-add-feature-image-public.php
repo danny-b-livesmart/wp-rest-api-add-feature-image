@@ -101,15 +101,15 @@ class Wp_Rest_Api_Add_Feature_Image_Public {
 	}
 
 
-  /**
+   /**
    * Add feature image to WP REST API
    * 
-   * @since 1.0.0
+   * @since 1.0.1
    * @return void
    */
   public function register_rest_images() {
     register_rest_field( array('post'),
-        'fimg_url',
+        'featureImg',
         array(
             'get_callback'    => array($this, 'get_rest_featured_image'),
             'update_callback' => null,
@@ -123,14 +123,17 @@ class Wp_Rest_Api_Add_Feature_Image_Public {
    * 
    * @param array $object Post array 
    *  
-   * @since 1.0.0
+   * @since 1.0.1
    * @return string|false Featured image src path or false if object has no featured image src
    */
   public function get_rest_featured_image( $object ) {
 
     if( $object['featured_media'] ){
-        $img = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
-        return $img[0];
+        $imgSrc = wp_get_attachment_image_src( $object['featured_media'], 'app-thumb' );
+        $img['url'] = $imgSrc[0];
+        $img['title'] = get_post_meta($object['featured_media'], '_wp_attachment_image_title', TRUE);
+        $img['alt'] = get_post_meta($object['featured_media'], '_wp_attachment_image_alt', TRUE);
+        return $img;
     }
     return false;
   }
